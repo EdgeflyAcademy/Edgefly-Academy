@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "81337669726",
+    "project_id": "edgefly-academy-9b88f",
+    "storage_bucket": "edgefly-academy-9b88f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81337669726:android:97fc903de306453cd7fccf",
+        "android_client_info": {
+          "package_name": "com.example.edgefly_academy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxJdRdMYeBd6fhgiv-TM0XLZ9swMBMIzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
