@@ -12,7 +12,20 @@
           "package_name": "com.example.edgefly_academy"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "81337669726-2m4o04kipm7mq0vjfjvhdtc4aibejqqf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.edgefly_academy",
+            "certificate_hash": "d78c0b4ecf7181f6612fe7c7ad9a7f7a2920b242"
+          }
+        },
+        {
+          "client_id": "81337669726-9biir1n63f1ivsn92pj0e91ake5gdd53.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCxJdRdMYeBd6fhgiv-TM0XLZ9swMBMIzk"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81337669726-9biir1n63f1ivsn92pj0e91ake5gdd53.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "81337669726-lieiinh07km95u9p5cmksbaui9f4i9np.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.edgeflyAcademy"
+              }
+            }
+          ]
         }
       }
     }
