@@ -8,7 +8,7 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../common widzet/dialogs.dart';
-import '../../home/home.dart';
+import '../../home_screen/home_screen/home.dart';
 import '../controller/api.dart';
 import '../nodels/coustom_text.dart';
 import 'Registration_page.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../home/home.dart';
+import '../../home_screen/home_screen/home.dart';
 import '../component/coustom_textfield.dart';
 
 class SigninScreen extends StatefulWidget {

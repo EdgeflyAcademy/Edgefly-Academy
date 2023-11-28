@@ -8,10 +8,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../common widzet/dialogs.dart';
+import '../home_screen/home_screen/home.dart';
 import '../auth/controller/api.dart';
 import '../auth/view/Registration_page.dart';
 import '../auth/view/signin_screen.dart';
-import '../home/home.dart';
 import 'component/line.dart';
 
 class WellcomeScreen extends StatefulWidget {
