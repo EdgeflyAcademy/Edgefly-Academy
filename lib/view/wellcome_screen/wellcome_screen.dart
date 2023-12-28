@@ -8,8 +8,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../common widzet/dialogs.dart';
-import '../home_screen/home_screen/home.dart';
-import '../auth/controller/api.dart';
 import '../auth/view/Registration_page.dart';
 import '../auth/view/signin_screen.dart';
 import 'component/line.dart';
@@ -22,23 +20,23 @@ class WellcomeScreen extends StatefulWidget {
 }
 
 class _WellcomeScreenState extends State<WellcomeScreen> {
-  handleGoogleButtunClick() {
-    Dialogs.showProgress(context);
-    signInWithGoogle().then((user) async {
-      navigator!.pop(context);
-      if (user != null) {
-        //already have data
-        if ((await Apis.userExists())) {
-          Get.offAll(() => const Home());
-        } else {
-          //user log in for first time
-          await Apis.createUser().then((value) {
-            Get.offAll(() => const Home());
-          });
-        }
-      }
-    });
-  }
+  // handleGoogleButtunClick() {
+  //   Dialogs.showProgress(context);
+  //   signInWithGoogle().then((user) async {
+  //     navigator!.pop(context);
+  //     if (user != null) {
+  //       //already have data
+  //       if ((await Apis.userExists())) {
+  //         Get.offAll(() => const Home());
+  //       } else {
+  //         //user log in for first time
+  //         await Apis.createUser().then((value) {
+  //           Get.offAll(() => const Home());
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
 
   Future<UserCredential?> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -124,7 +122,7 @@ class _WellcomeScreenState extends State<WellcomeScreen> {
                   shape: const StadiumBorder(),
                   elevation: 1),
               onPressed: () {
-                handleGoogleButtunClick();
+                // handleGoogleButtunClick();
               },
               //google icon
               icon: Image.asset('assets/icons/google.png',

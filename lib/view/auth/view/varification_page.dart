@@ -2,16 +2,11 @@
 
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import 'package:pinput/pinput.dart';
 
-import '../../../common widzet/dialogs.dart';
-import '../../home_screen/home_screen/home.dart';
-import '../controller/api.dart';
 import '../nodels/coustom_text.dart';
-import 'Registration_page.dart';
 
 class VerificationPage extends StatefulWidget {
   final User user;
@@ -80,30 +75,30 @@ class _VerificationPageState extends State<VerificationPage> {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF134668)),
                 onPressed: () async {
-                  Dialogs.showProgress(context);
-                  try {
-                    firebase_auth.PhoneAuthCredential credential =
-                        firebase_auth.PhoneAuthProvider.credential(
-                            verificationId: RegistrationPage.verify,
-                            smsCode: code);
+                  // Dialogs.showProgress(context);
+                  // try {
+                  //   firebase_auth.PhoneAuthCredential credential =
+                  //       firebase_auth.PhoneAuthProvider.credential(
+                  //           verificationId: RegistrationPage.verify,
+                  //           smsCode: code);
 
-                    // Sign the user in (or link) with the credential
-                    await auth.signInWithCredential(credential);
-                    await Apis.storeUserData(
-                      name: widget.user.name,
-                      password: widget.user.password,
-                      email: widget.user.email,
-                      phone: widget.user.phone,
-                      category: widget.user.category,
-                      institution: widget.user.institution,
-                    ).then((value) {
-                      VxToast.show(context, msg: "signupsucess");
-                      navigator!.pop(context);
-                      Get.offAll(() => const Home());
-                    });
-                  } catch (e) {
-                    VxToast.show(context, msg: "Wrong OTP");
-                  }
+                  //   // Sign the user in (or link) with the credential
+                  //   await auth.signInWithCredential(credential);
+                  //   await Apis.storeUserData(
+                  //     name: widget.user.name,
+                  //     password: widget.user.password,
+                  //     email: widget.user.email,
+                  //     phone: widget.user.phone,
+                  //     category: widget.user.category,
+                  //     institution: widget.user.institution,
+                  //   ).then((value) {
+                  //     VxToast.show(context, msg: "signupsucess");
+                  //     navigator!.pop(context);
+                  //     Get.offAll(() => const Home());
+                  //   });
+                  // } catch (e) {
+                  //   VxToast.show(context, msg: "Wrong OTP");
+                  // }
                 },
                 child: "Verify".text.white.make(),
               ),

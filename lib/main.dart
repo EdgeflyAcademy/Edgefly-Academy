@@ -4,8 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'view/auth/view/signin_screen.dart';
 import 'view/home_screen/home_screen/home.dart';
-import 'view/wellcome_screen/wellcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: isLogin ? const Home() : const WellcomeScreen(),
+      home: isLogin ? const Home() : const SigninScreen(),
     );
   }
 }
