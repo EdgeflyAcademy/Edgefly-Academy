@@ -1,18 +1,11 @@
 // ignore_for_file: file_names, use_build_context_synchronously
-
-import 'dart:convert';
-
-import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:edgefly_academy/view/auth/controller/signup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../common widzet/dialogs.dart';
+import '../../home_screen/home_screen/home.dart';
+import '../../widgets/loading_indicator.dart';
 import '../component/coustom_textfield.dart';
-import '../nodels/coustom_text.dart';
-import 'varification_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -24,45 +17,10 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  TextEditingController namecontroller = TextEditingController();
-  TextEditingController emailcontroller = TextEditingController();
-  TextEditingController passcontroller = TextEditingController();
-  TextEditingController countrycodecontroller = TextEditingController();
-  TextEditingController phonecontroller = TextEditingController();
-  TextEditingController categorycontroller = TextEditingController();
-  TextEditingController institutioncontroller = TextEditingController();
-  var phone = "";
-
-  late SharedPreferences sharedPreferences;
-
-  @override
-  void initState() {
-    super.initState();
-    inistalGetSavedData();
-    countrycodecontroller.text = "+880";
-  }
-
-  void inistalGetSavedData() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-  }
-
-  void storedata() {
-    User user = User(
-      namecontroller.text,
-      emailcontroller.text,
-      passcontroller.text,
-      phonecontroller.text,
-      categorycontroller.text,
-      institutioncontroller.text,
-    );
-
-    Map<String, dynamic> userMap = user.toMap(); // Convert User to a Map
-    String userdata = jsonEncode(userMap); // Encode the Map to JSON
-    sharedPreferences.setString('userdata', userdata);
-  }
-
+  bool? isCheck = false;
   @override
   Widget build(BuildContext context) {
+    SignupController controller = Get.put(SignupController());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -74,136 +32,126 @@ class _RegistrationPageState extends State<RegistrationPage> {
         padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              coustomtextfield(
-                controller: namecontroller,
-                hint: "Enter your full name",
-                title: "Full Name",
-                isPass: false,
-              ),
-              coustomtextfield(
-                controller: emailcontroller,
-                hint: "Enter your Email",
-                title: "Email",
-                isPass: false,
-              ),
-              coustomtextfield(
-                controller: passcontroller,
-                hint: "********",
-                title: "Password",
-                isPass: true,
-              ),
-              coustomtextfield(
-                hint: "********",
-                title: "Confirm Password",
-                isPass: true,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  "Phone number"
-                      .text
-                      .size(18.0)
-                      .color(const Color(0xFF134668))
-                      .align(TextAlign.start)
-                      .make(),
-                ],
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  border: Border.all(width: 1, color: const Color(0xFF134668)),
+          child: Form(
+            key: controller.formkey,
+            child: Column(
+              children: [
+                coustomtextfield(
+                  controller: controller.namecontroller,
+                  hint: "Enter your full name",
+                  title: "Full Name",
+                  isPass: false,
+                  validator: controller.validname,
                 ),
-                child: Row(
-                  children: [
-                    6.widthBox,
-                    SizedBox(
-                      width: 45,
-                      child: TextField(
-                        controller: countrycodecontroller,
-                        decoration:
-                            const InputDecoration(border: InputBorder.none),
+                coustomtextfield(
+                  controller: controller.emailcontroller,
+                  hint: "Enter your Email",
+                  title: "Email",
+                  isPass: false,
+                  validator: controller.validateemail,
+                ),
+                coustomtextfield(
+                    controller: controller.phonecontroller,
+                    hint: "Enter your phone",
+                    title: "phone",
+                    isPass: false,
+                    validator: controller.validPhone),
+                coustomtextfield(
+                  controller: controller.passcontroller,
+                  hint: "********",
+                  title: "Password",
+                  isPass: true,
+                  validator: controller.validpass,
+                ),
+                coustomtextfield(
+                  hint: "********",
+                  title: "Confirm Password",
+                  isPass: true,
+                  validator: controller.validpass,
+                ),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: "Category"
+                        .text
+                        .color(const Color(0xFF134668))
+                        .size(18)
+                        .make()),
+                GestureDetector(
+                  onTapDown: (details) {
+                    controller.showDropdownMenu(context);
+                  },
+                  child: TextFormField(
+                    controller: controller.categorycontroller,
+                    readOnly: true,
+                    onTap: () {
+                      controller.showDropdownMenu(context);
+                    },
+                    decoration: const InputDecoration(
+                      hintStyle: TextStyle(
+                        color: Colors.black54,
                       ),
+                      fillColor: Colors.black12,
+                      prefixIcon: Icon(Icons.more_vert),
+                      suffixIcon: Icon(Icons.arrow_drop_down),
+                      border: OutlineInputBorder(borderSide: BorderSide()),
                     ),
-                    Text(
-                      "|",
-                      style: TextStyle(
-                          fontSize: context.screenHeight * .03,
-                          color: Colors.grey),
-                    ),
-                    10.widthBox,
-                    Expanded(
-                        child: TextField(
-                      keyboardType: TextInputType.phone,
-                      onChanged: (value) {
-                        phone = value;
+                  ),
+                ),
+                coustomtextfield(
+                  controller: controller.institutioncontroller,
+                  hint: "Dhaka International University",
+                  title: "Institution",
+                  isPass: false,
+                  validator: controller.validfield,
+                ),
+                10.heightBox,
+                Row(
+                  children: [
+                    Checkbox(
+                      activeColor: const Color(0xFF134668),
+                      checkColor: Colors.white,
+                      value: isCheck,
+                      onChanged: (newvalue) {
+                        setState(() {
+                          isCheck = newvalue;
+                        });
                       },
-                      decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "enter your phone number"),
-                    ))
+                    ),
+                    "Terms & Condition".text.make()
                   ],
                 ),
-              ),
-              coustomtextfield(
-                controller: categorycontroller,
-                hint: "SSC",
-                title: "Category",
-                isPass: false,
-              ),
-              coustomtextfield(
-                controller: institutioncontroller,
-                hint: "Dhaka International University",
-                title: "Institution",
-                isPass: false,
-              ),
-              30.heightBox,
-              SizedBox(
-                height: 50,
-                width: context.screenWidth - 60,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF134668)),
-                  onPressed: () async {
-                    try {
-                      Dialogs.showProgress(context);
-                      await auth.FirebaseAuth.instance.verifyPhoneNumber(
-                        phoneNumber: countrycodecontroller.text + phone,
-                        verificationCompleted:
-                            (auth.PhoneAuthCredential credential) {},
-                        verificationFailed: (auth.FirebaseAuthException e) {},
-                        codeSent:
-                            (String verificationId, int? resendToken) async {
-                          RegistrationPage.verify = verificationId;
-                          User user = User(
-                            namecontroller.text,
-                            emailcontroller.text,
-                            passcontroller.text,
-                            countrycodecontroller.text + phone,
-                            categorycontroller.text,
-                            institutioncontroller.text,
-                          );
-                          storedata();
-                          navigator!.pop(context);
-                          Get.to(() => VerificationPage(
-                                user: user,
-                              ));
-                        },
-                        codeAutoRetrievalTimeout: (String verificationId) {},
-                      );
-                    } catch (e) {
-                      // ignore: avoid_print
-                      print('error:$e');
-                      VxToast.show(context,
-                          msg: "Check Your internet connection");
-                    }
-                  },
-                  child: "Registration".text.white.make(),
+                10.heightBox,
+                SizedBox(
+                  width: context.screenWidth * .7,
+                  height: 55,
+                  child: Obx(
+                    () => ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isCheck == true
+                            ? const Color(0xFF134668)
+                            : const Color.fromARGB(255, 86, 158, 206),
+                        shape: const StadiumBorder(),
+                      ),
+                      onPressed: () async {
+                        if (isCheck != false) {
+                          await controller.signupUser(context);
+                          if (controller.userCredential != null) {
+                            Get.offAll(() => const Home());
+                          }
+                        } else {
+                          VxToast.show(context,
+                              msg: "make sure to agree our terms & conditon");
+                        }
+                      },
+                      child: controller.isLoading.value
+                          ? const LoadingIndicator()
+                          : "Registration".text.white.make(),
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                20.heightBox,
+              ],
+            ),
           ),
         ),
       ),
