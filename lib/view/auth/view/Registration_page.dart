@@ -18,6 +18,8 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   bool? isCheck = false;
+  GlobalKey buttonKey = GlobalKey();
+  String selectedValue = "ssc";
   @override
   Widget build(BuildContext context) {
     SignupController controller = Get.put(SignupController());
@@ -78,22 +80,42 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         .make()),
                 GestureDetector(
                   onTapDown: (details) {
-                    controller.showDropdownMenu(context);
+                    // controller.showDropdownMenu(
+                    //   context,
+                    // );
                   },
                   child: TextFormField(
+                    validator: controller.validfield,
                     controller: controller.categorycontroller,
                     readOnly: true,
-                    onTap: () {
-                      controller.showDropdownMenu(context);
-                    },
-                    decoration: const InputDecoration(
-                      hintStyle: TextStyle(
+                    onTap: () {},
+                    decoration: InputDecoration(
+                      hintText: "Select a category",
+                      hintStyle: const TextStyle(
                         color: Colors.black54,
                       ),
                       fillColor: Colors.black12,
-                      prefixIcon: Icon(Icons.more_vert),
-                      suffixIcon: Icon(Icons.arrow_drop_down),
-                      border: OutlineInputBorder(borderSide: BorderSide()),
+                      prefixIcon: const Icon(Icons.more_vert),
+                      suffixIcon: DropdownButton(
+                        items: const [
+                          DropdownMenuItem(value: 'ssc', child: Text('SSC')),
+                          DropdownMenuItem(value: 'hsc', child: Text('HSC')),
+                          DropdownMenuItem(
+                              value: 'admition', child: Text('Admition')),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            selectedValue = value!;
+                            controller.selectedValue = value;
+                            controller.categorycontroller.text = value;
+                          });
+                        },
+                        iconSize: 50,
+                      ),
+                      border:
+                          const OutlineInputBorder(borderSide: BorderSide()),
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF134668))),
                     ),
                   ),
                 ),
@@ -133,15 +155,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         shape: const StadiumBorder(),
                       ),
                       onPressed: () async {
-                        if (isCheck != false) {
+                        if (isCheck = false) {
+                          VxToast.show(context,
+                              msg: "make sure to agree our terms & conditon");
+                        } else if (selectedValue != null) {
                           await controller.signupUser(context);
                           if (controller.userCredential != null) {
                             Get.offAll(() => const Home());
                           }
-                        } else {
-                          VxToast.show(context,
-                              msg: "make sure to agree our terms & conditon");
-                        }
+                        } else {}
                       },
                       child: controller.isLoading.value
                           ? const LoadingIndicator()

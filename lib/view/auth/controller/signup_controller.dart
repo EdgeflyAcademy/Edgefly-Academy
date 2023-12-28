@@ -12,37 +12,12 @@ class SignupController extends GetxController {
   TextEditingController passcontroller = TextEditingController();
   TextEditingController countrycodecontroller = TextEditingController();
   TextEditingController phonecontroller = TextEditingController();
-  TextEditingController categorycontroller = TextEditingController();
+  var categorycontroller = TextEditingController();
   TextEditingController institutioncontroller = TextEditingController();
   UserCredential? userCredential;
   var isLoading = false.obs;
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
-  RxString selectedValue = "ssc".obs;
-
-  void showDropdownMenu(BuildContext context) {
-    final List<PopupMenuEntry<String>> items = [
-      const PopupMenuItem(value: 'ssc', child: Text('SSC')),
-      const PopupMenuItem(value: 'hsc', child: Text('HSC')),
-      const PopupMenuItem(value: 'admition', child: Text('Admition')),
-    ];
-
-    showMenu(
-      context: context,
-      position: RelativeRect.fromRect(
-        Rect.fromPoints(
-          Offset.zero,
-          Offset.zero,
-        ),
-        Offset.zero & MediaQuery.of(context).size,
-      ),
-      items: items,
-    ).then((value) {
-      if (value != null) {
-        selectedValue.value = value;
-        categorycontroller.text = value;
-      }
-    });
-  }
+  var selectedValue = "";
 
   signupUser(context) async {
     if (formkey.currentState!.validate()) {
@@ -162,7 +137,7 @@ class SignupController extends GetxController {
     }
     RegExp emailRefExp = RegExp(r'^.{2,}$');
     if (!emailRefExp.hasMatch(value)) {
-      return 'please fil this document';
+      return 'please select a category';
     }
     return null;
   }
