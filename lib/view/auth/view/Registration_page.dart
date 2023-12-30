@@ -158,6 +158,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         if (isCheck = false) {
                           VxToast.show(context,
                               msg: "make sure to agree our terms & conditon");
+                          // ignore: unnecessary_null_comparison
                         } else if (selectedValue != null) {
                           await controller.signupUser(context);
                           if (controller.userCredential != null) {
