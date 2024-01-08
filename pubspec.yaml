@@ -44,6 +44,7 @@ dependencies:
   shared_preferences: ^2.2.2
   pinput: ^3.0.1
   google_sign_in: ^6.1.6
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edgefly_academy/app/exam/view/terms_condition.dart';
+import 'package:edgefly_academy/general/common%20widzet/loading_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -64,11 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (BuildContext context,
                 AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
               if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.blueAccent),
-                  ),
-                );
+                return const Center(child: LoadingIndicator());
               } else {
                 var data = snapshot.data!.docs[0];
 
@@ -137,62 +134,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      // appBar: AppBar(
-      //   backgroundColor: const Color(0xFF134668),
-      //   leading: Row(
-      //     children: [
-      //       Padding(
-      //         padding: const EdgeInsets.only(right: 10, left: 20),
-      //         child: CircleAvatar(
-      //           child: Image.asset('assets/images/Group Study.png'),
-      //         ),
-      //       ),
-      //       const Column(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         children: [
-      //           Text(
-      //             "ABDULLA AL NUMAN",
-      //             style: TextStyle(
-      //                 fontSize: 15,
-      //                 fontWeight: FontWeight.bold,
-      //                 color: Colors.white),
-      //           ),
-      //           Text(
-      //             "LEVEL-3",
-      //             style: TextStyle(
-      //                 fontSize: 15,
-      //                 fontWeight: FontWeight.bold,
-      //                 color: Colors.white),
-      //           ),
-      //         ],
-      //       ),
-      //     ],
-      //   ),
-      //   leadingWidth: context.screenWidth * 0.8,
-      //   actions: [
-      //     Padding(
-      //       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-      //       child: Row(
-      //         children: [
-      //           IconButton(
-      //             onPressed: () {},
-      //             icon: Image.asset(
-      //               "assets/images/trophy.png",
-      //               width: context.screenWidth * 0.09,
-      //             ),
-      //           ),
-      //           IconButton(
-      //             onPressed: () {},
-      //             icon: Image.asset(
-      //               "assets/images/setting.png",
-      //               width: context.screenWidth * 0.09,
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   ],
-      // ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -246,9 +187,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   scrollDirection: Axis.horizontal,
                   itemCount: _image2.length,
                   itemBuilder: (context, index) {
-                    return HomeWiget(
-                      image: _image2[index],
-                      text: _text2[index],
+                    return InkWell(
+                      onTap: () {},
+                      child: HomeWiget(
+                        image: _image2[index],
+                        text: _text2[index],
+                      ),
                     );
                   }),
             ),
