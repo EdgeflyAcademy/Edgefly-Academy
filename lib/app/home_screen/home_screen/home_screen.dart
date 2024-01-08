@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:edgefly_academy/view/exam/view/terms_condition.dart';
+import 'package:edgefly_academy/app/exam/view/terms_condition.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../services/firebase_services.dart';
+import '../../../general/services/firebase_services.dart';
 import '../widget/home_wiget.dart';
 
 class HomeScreen extends StatefulWidget {

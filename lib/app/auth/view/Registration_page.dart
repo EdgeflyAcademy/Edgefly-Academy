@@ -1,10 +1,10 @@
 // ignore_for_file: file_names, use_build_context_synchronously
-import 'package:edgefly_academy/view/auth/controller/signup_controller.dart';
+import 'package:edgefly_academy/app/auth/controller/signup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../../home_screen/home_screen/home.dart';
-import '../../widgets/loading_indicator.dart';
+import '../../../general/common widzet/loading_indicator.dart';
 import '../component/coustom_textfield.dart';
 
 class RegistrationPage extends StatefulWidget {

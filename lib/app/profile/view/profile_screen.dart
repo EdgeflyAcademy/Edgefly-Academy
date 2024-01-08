@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:edgefly_academy/view/auth/view/signin_screen.dart';
+import 'package:edgefly_academy/app/auth/view/signin_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../services/firebase_services.dart';
+import '../../../general/services/firebase_services.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
