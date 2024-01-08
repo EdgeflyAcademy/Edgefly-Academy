@@ -13,6 +13,7 @@ class QuizScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xff4bb050),
         title: const Text('MCQ Quiz'),
       ),
       body: Padding(
@@ -25,6 +26,7 @@ class QuizScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     var question = quizController.questions[index];
                     return Card(
+                      color: const Color(0xff4bb050),
                       margin: const EdgeInsets.symmetric(vertical: 8),
                       elevation: 5,
                       child: Column(
@@ -34,54 +36,98 @@ class QuizScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               15.widthBox,
-                              "Question: ".text.semiBold.make(),
-                              Text(question.question),
+                              "Question: ".text.semiBold.white.make(),
+                              Text(
+                                question.question,
+                                style: const TextStyle(color: Colors.white),
+                              ),
                             ],
                           ),
+                          10.heightBox,
                           Obx(
-                            () => RadioListTile(
-                              title: Text(question.option1),
-                              value: question.option1,
-                              groupValue: quizController.selectedAnswer[index],
-                              onChanged: (value) {
-                                quizController.setSelectedAnswer(
-                                    index, value.toString());
-                              },
+                            () => Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: RadioListTile(
+                                title: Text(question.option1),
+                                value: question.option1,
+                                groupValue:
+                                    quizController.selectedAnswer[index],
+                                onChanged: (value) {
+                                  quizController.setSelectedAnswer(
+                                      index, value.toString());
+                                },
+                              ),
                             ),
                           ),
+                          5.heightBox,
                           Obx(
-                            () => RadioListTile(
-                              title: Text(question.option2),
-                              value: question.option2,
-                              groupValue: quizController.selectedAnswer[index],
-                              onChanged: (value) {
-                                quizController.setSelectedAnswer(
-                                    index, value.toString());
-                              },
+                            () => Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: RadioListTile(
+                                title: Text(question.option2),
+                                value: question.option2,
+                                groupValue:
+                                    quizController.selectedAnswer[index],
+                                onChanged: (value) {
+                                  quizController.setSelectedAnswer(
+                                      index, value.toString());
+                                },
+                              ),
                             ),
                           ),
+                          5.heightBox,
                           Obx(
-                            () => RadioListTile(
-                              title: Text(question.option3),
-                              value: question.option3,
-                              groupValue: quizController.selectedAnswer[index],
-                              onChanged: (value) {
-                                quizController.setSelectedAnswer(
-                                    index, value.toString());
-                              },
+                            () => Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: RadioListTile(
+                                title: Text(question.option3),
+                                value: question.option3,
+                                groupValue:
+                                    quizController.selectedAnswer[index],
+                                onChanged: (value) {
+                                  quizController.setSelectedAnswer(
+                                      index, value.toString());
+                                },
+                              ),
                             ),
                           ),
+                          5.heightBox,
                           Obx(
-                            () => RadioListTile(
-                              title: Text(question.option4),
-                              value: question.option4,
-                              groupValue: quizController.selectedAnswer[index],
-                              onChanged: (value) {
-                                quizController.setSelectedAnswer(
-                                    index, value.toString());
-                              },
+                            () => Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: RadioListTile(
+                                title: Text(question.option4),
+                                value: question.option4,
+                                groupValue:
+                                    quizController.selectedAnswer[index],
+                                onChanged: (value) {
+                                  quizController.setSelectedAnswer(
+                                      index, value.toString());
+                                },
+                              ),
                             ),
                           ),
+                          10.heightBox,
                         ],
                       ),
                     );
