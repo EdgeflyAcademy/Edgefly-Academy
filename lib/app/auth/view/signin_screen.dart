@@ -1,10 +1,10 @@
-import 'package:edgefly_academy/view/auth/controller/signin_controller.dart';
+import 'package:edgefly_academy/app/auth/controller/signin_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../home_screen/home_screen/home.dart';
-import '../../widgets/loading_indicator.dart';
+import '../../../general/common widzet/loading_indicator.dart';
 import '../component/coustom_textfield.dart';
 import 'Registration_page.dart';
 
