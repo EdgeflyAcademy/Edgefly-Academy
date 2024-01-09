@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../general/services/firebase_services.dart';
+import '../../profile/view/profile_screen.dart';
 import '../widget/home_wiget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -117,7 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             10.widthBox,
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.to(() => const ProfileScreen());
+                              },
                               icon: Image.asset(
                                 'assets/images/setting.png',
                                 width: 45,
