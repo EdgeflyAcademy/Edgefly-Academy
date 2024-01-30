@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
     const HomeScreen(),
     const Time(),
     const NotificationPage(),
-    const ProfileScreen(),
+    ProfileScreen(),
   ];
 
   int _currentIndex = 0;
