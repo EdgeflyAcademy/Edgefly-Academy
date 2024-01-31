@@ -21,7 +21,7 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Settings'),
             onTap: () {
-              Get.to(() => const ProfileScreen());
+              Get.to(() => ProfileScreen());
             },
           ),
         ],

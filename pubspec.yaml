@@ -45,6 +45,8 @@ dependencies:
   pinput: ^3.0.1
   google_sign_in: ^6.1.6
   shimmer: ^3.0.0
+  cached_network_image: ^3.0.0
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:

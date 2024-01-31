@@ -36,17 +36,22 @@ class CoustomAppbar extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        data['imageUrl'] == ''
-                            ? Image.asset(
-                                "assets/images/learning.png",
-                                width: 70,
-                                fit: BoxFit.cover,
-                              ).box.roundedFull.clip(Clip.antiAlias).make()
-                            : Image.network(
-                                data['imageUrl'],
-                                width: 70,
-                                fit: BoxFit.cover,
-                              ).box.roundedFull.clip(Clip.antiAlias).make(),
+                        InkWell(
+                          onTap: () {
+                            Get.to(() => ProfileScreen());
+                          },
+                          child: data['imageUrl'] == ''
+                              ? Image.asset(
+                                  "assets/images/learning.png",
+                                  width: 70,
+                                  fit: BoxFit.cover,
+                                ).box.roundedFull.clip(Clip.antiAlias).make()
+                              : Image.network(
+                                  data['imageUrl'],
+                                  width: 70,
+                                  fit: BoxFit.cover,
+                                ).box.roundedFull.clip(Clip.antiAlias).make(),
+                        ),
                         5.widthBox,
                         Expanded(
                           child: Column(
@@ -71,7 +76,7 @@ class CoustomAppbar extends StatelessWidget {
                         10.widthBox,
                         IconButton(
                           onPressed: () {
-                            Get.to(() => const ProfileScreen());
+                            Get.to(() => ProfileScreen());
                           },
                           icon: Image.asset(
                             'assets/images/setting.png',
