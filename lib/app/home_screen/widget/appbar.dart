@@ -46,11 +46,20 @@ class CoustomAppbar extends StatelessWidget {
                                   width: 70,
                                   fit: BoxFit.cover,
                                 ).box.roundedFull.clip(Clip.antiAlias).make()
-                              : Image.network(
-                                  data['imageUrl'],
-                                  width: 70,
-                                  fit: BoxFit.cover,
-                                ).box.roundedFull.clip(Clip.antiAlias).make(),
+                              : ClipOval(
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(25)),
+                                    child: Image.network(
+                                      data['imageUrl'],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
                         ),
                         5.widthBox,
                         Expanded(
