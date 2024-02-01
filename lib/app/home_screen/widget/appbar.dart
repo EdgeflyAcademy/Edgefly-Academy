@@ -7,6 +7,7 @@ import 'package:velocity_x/velocity_x.dart';
 import '../../../general/common widzet/loading_indicator.dart';
 import '../../../general/services/firebase_services.dart';
 import '../../profile/view/profile_screen.dart';
+import '../../settings/seetings.dart';
 
 class CoustomAppbar extends StatelessWidget {
   const CoustomAppbar({super.key});
@@ -76,7 +77,7 @@ class CoustomAppbar extends StatelessWidget {
                         10.widthBox,
                         IconButton(
                           onPressed: () {
-                            Get.to(() => ProfileScreen());
+                            Get.to(() => SettingsPage());
                           },
                           icon: Image.asset(
                             'assets/images/setting.png',

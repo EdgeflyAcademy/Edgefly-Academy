@@ -2,26 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import '../controller/user_profile_controller.dart';
 import 'edit_profile.dart';
-
-class UserController extends GetxController {
-  var userData = <String, dynamic>{}.obs;
-
-  void fetchUserData() async {
-    try {
-      var snapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .get();
-      if (snapshot.exists) {
-        userData.value = snapshot.data() as Map<String, dynamic>;
-      }
-    } catch (error) {
-      print("Error fetching user data: $error");
-    }
-  }
-}
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -38,14 +20,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('User Profile'),
-        // actions: [
-        //   InkWell(
-        //     child: CircleAvatar(child: Icon(Icons.edit)),
-        //   ),
-        //   SizedBox(
-        //     width: 10,
-        //   ),
-        // ],
       ),
       body: Obx(() {
         if (userController.userData.isEmpty) {
@@ -53,46 +27,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return Center(child: CircularProgressIndicator());
         }
 
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 60,
-                backgroundImage:
-                    NetworkImage(userController.userData['imageUrl']),
-              ),
-              SizedBox(height: 20),
-              Text(
-                userController.userData['name'],
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 60,
+                  backgroundImage:
+                      NetworkImage(userController.userData['imageUrl']),
                 ),
-              ),
-              Text(
-                '${userController.userData['about']}',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
+                SizedBox(height: 20),
+                Text(
+                  userController.userData['name'],
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              ProfileField(
-                  label: 'Email', value: userController.userData['email']),
-              ProfileField(
-                  label: 'Institution',
-                  value: userController.userData['institution']),
-              ProfileField(
-                  label: 'Category',
-                  value: userController.userData['category']),
-              ProfileField(
-                  label: 'Phone Number',
-                  value: userController.userData['phone']),
-              ProfileField(
-                  label: 'Level', value: userController.userData['level']),
-            ],
+                Text(
+                  '${userController.userData['about']}',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ProfileField(
+                    label: 'Email', value: userController.userData['email']),
+                ProfileField(
+                    label: 'Institution',
+                    value: userController.userData['institution']),
+                ProfileField(
+                    label: 'Category',
+                    value: userController.userData['category']),
+                ProfileField(
+                    label: 'Phone Number',
+                    value: userController.userData['phone']),
+                ProfileField(
+                    label: 'Level', value: userController.userData['level']),
+              ],
+            ),
           ),
         );
       }),
@@ -102,7 +78,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onPressed: () {
             Get.to(() => EditProfileScreen());
           },
-          child: Text('Edit Profile'),
+          child: Text(
+            'Edit Profile',
+            style: TextStyle(color: Colors.white),
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+              // Use different colors for different states if needed
+              return states.contains(MaterialState.pressed)
+                  ? Colors.blueAccent
+                  : Colors.blue;
+            }),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
         ),
       ),
     );

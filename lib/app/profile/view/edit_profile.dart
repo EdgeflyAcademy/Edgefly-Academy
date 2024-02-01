@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../controller/user_profile_controller.dart';
 import 'profile_screen.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController institutionController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  // TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -34,8 +35,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     institutionController.text =
         Get.find<UserController>().userData['institution'] ?? '';
     phoneController.text = Get.find<UserController>().userData['phone'] ?? '';
-    passwordController.text =
-        Get.find<UserController>().userData['password'] ?? '';
+    // passwordController.text =
+    //     Get.find<UserController>().userData['password'] ?? '';
   }
 
   final imageUrl = Get.find<UserController>().userData['imageUrl'];
@@ -170,10 +171,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 controller: phoneController,
                 decoration: InputDecoration(labelText: 'Phone Number'),
               ),
-              TextFormField(
-                controller: passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
-              ),
+              // TextFormField(
+              //   controller: passwordController,
+              //   decoration: InputDecoration(labelText: 'Password'),
+              // ),
 
               // SizedBox(height: 20),
             ],
@@ -209,7 +210,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   'email': emailController.text,
                   'institution': institutionController.text,
                   'phone': phoneController.text,
-                  'password': passwordController.text,
+                  // 'password': passwordController.text,
                   // Update other fields as needed
                 });
                 Get.find<UserController>().fetchUserData();
@@ -245,7 +246,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   'email': emailController.text,
                   'institution': institutionController.text,
                   'phone': phoneController.text,
-                  'password': passwordController.text,
+                  // 'password': passwordController.text,
                   // Update other fields as needed
                 });
                 Get.find<UserController>().fetchUserData();
@@ -271,7 +272,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               }
             }
           },
-          child: Text('Update Profile'),
+          child: Text(
+            'Update Profile',
+            style: TextStyle(color: Colors.white),
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+              // Use different colors for different states if needed
+              return states.contains(MaterialState.pressed)
+                  ? Colors.blueAccent
+                  : Colors.blue;
+            }),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
         ),
       ),
     );
