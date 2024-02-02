@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../auth/view/signin_screen.dart';
+import '../profile_settings/profile_settings.dart';
+import 'notification_settings/notification_settings.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -18,13 +20,33 @@ class SettingsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Card(
+              color: Colors.purple[100],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: ListTile(
+                onTap: () {
+                  Get.to(ProfileSettingsPage());
+                },
+                // tileColor: Colors.blue[100],
+                leading: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Image.asset("assets/icons/profile_settings.png",
+                      scale: 17),
+                ),
+                title: const Text("Profile Settings"),
+
+                // Add more properties as needed
+              ),
+            ),
+            Card(
               color: Colors.green[100],
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: ListTile(
                 onTap: () {
-                  Get.to(ChangePasswordPage());
+                  Get.to(NotificationSettingsPage());
                 },
                 // tileColor: Colors.blue[100],
                 leading: CircleAvatar(

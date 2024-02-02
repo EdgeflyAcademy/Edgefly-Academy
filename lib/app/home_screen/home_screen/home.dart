@@ -4,7 +4,7 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../profile/view/profile_screen.dart';
 import 'home_screen.dart';
-import 'notification.dart';
+import 'notifications.dart';
 import 'time.dart';
 
 class Home extends StatefulWidget {
@@ -16,9 +16,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final allpages = [
-    const HomeScreen(),
-    const Time(),
-    const NotificationPage(),
+    HomeScreen(),
+    Time(),
+    NotificationsPage(),
     ProfileScreen(),
   ];
 
