@@ -2,6 +2,7 @@ import 'package:edgefly_academy/app/exam/view/terms_condition.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../wallet/user_wallet.dart';
 import '../widget/appbar.dart';
 import '../widget/home_wiget.dart';
 
@@ -138,9 +139,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   scrollDirection: Axis.horizontal,
                   itemCount: _image3.length,
                   itemBuilder: (context, index) {
-                    return HomeWiget(
-                      image: _image3[index],
-                      text: _text3[index],
+                    return InkWell(
+                      onTap: () {
+                        if (index == 0) {
+                          Get.to(UserWallet());
+                        }
+                      },
+                      child: HomeWiget(
+                        image: _image3[index],
+                        text: _text3[index],
+                      ),
                     );
                   }),
             ),
