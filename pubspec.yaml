@@ -48,6 +48,7 @@ dependencies:
   cached_network_image: ^3.0.0
   image_picker: ^1.0.7
   flutter_spinkit: ^5.2.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
