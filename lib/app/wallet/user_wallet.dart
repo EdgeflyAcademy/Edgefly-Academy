@@ -1,8 +1,9 @@
-import 'package:edgefly_academy/app/wallet/view/user_wallet.dart';
+import 'package:edgefly_academy/app/wallet/view/recharge.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'view/transactions.dart';
 import 'widgets/wallet_list_item.dart';
 
 class UserWallet extends StatefulWidget {
@@ -60,7 +61,9 @@ class _UserWalletState extends State<UserWallet> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(WalletRechargePage());
+                        },
                         child: Text(
                           "Recharge Now",
                           style: TextStyle(
@@ -160,6 +163,9 @@ class _UserWalletState extends State<UserWallet> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: ListTile(
+                        onTap: () {
+                          Get.to(() => TransactionScreen());
+                        },
                         // tileColor: Colors.orange[100],
                         leading: CircleAvatar(
                             backgroundColor: Colors.white,
