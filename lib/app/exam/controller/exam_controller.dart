@@ -1,72 +1,98 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-
+import '../../result_screen/show_result.dart';
 import '../model/question_model.dart';
-import 'firestore_service.dart';
 
 class QuizController extends GetxController {
   var questions = <Question>[].obs;
   var selectedAnswer = <String>[].obs;
+  var skippedAnswers = 0.obs; // Variable to track skipped answers
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  @override
-  void onInit() {
-    super.onInit();
-    _loadQuestions();
+  Future<List<Question>> getQuestions(String subject) async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      String userId = user.uid;
+
+      DocumentSnapshot userDocSnapshot =
+          await _firestore.collection('users').doc(userId).get();
+
+      String category = userDocSnapshot['category'];
+      var querySnapshot = await _firestore
+          .collection("question")
+          .doc(category)
+          .collection(subject)
+          .get();
+
+      List<DocumentSnapshot> documents = querySnapshot.docs;
+
+      documents.shuffle();
+      List<DocumentSnapshot> selectedDocuments =
+          documents.sublist(0, min(15, documents.length));
+
+      List<Question> selectedQuestions = selectedDocuments
+          .map((doc) => Question(
+                answer: doc['answer'],
+                category: doc['category'],
+                chapter: doc['chapter'],
+                option1: doc['option1'],
+                option2: doc['option2'],
+                option3: doc['option3'],
+                option4: doc['option4'],
+                question: doc['question'],
+                subject: doc['subject'],
+              ))
+          .toList();
+
+      return selectedQuestions;
+    } else {
+      throw Exception('User is not authenticated');
+    }
   }
 
-  Future<void> _loadQuestions() async {
-    var questionsData = await FirestoreService().getQuestions();
-
-    questions.assignAll(
-      questionsData.map((data) => Question(
-            answer: data['answer'],
-            category: data['category'],
-            chapter: data['chapter'],
-            option1: data['option1'],
-            option2: data['option2'],
-            option3: data['option3'],
-            option4: data['option4'],
-            question: data['question'],
-            subject: data['subject'],
-          )),
-    );
-
-    // Initialize the selectedAnswer list with empty strings for each question
-    selectedAnswer.assignAll(List.generate(questions.length, (_) => ''));
+  Future<void> loadQuestions(String subject) async {
+    try {
+      var questionsData = await getQuestions(subject);
+      questions.assignAll(questionsData);
+      selectedAnswer.assignAll(List.generate(questions.length, (_) => ''));
+    } catch (e) {
+      // ignore: avoid_print
+      print('Error loading questions: $e');
+    }
   }
 
   void setSelectedAnswer(int questionIndex, String answer) {
     selectedAnswer[questionIndex] = answer;
-    update(); // Update the UI when the answer is selected
+    update();
   }
 
   void checkAnswers() {
-    // Implement logic to check answers and display result in a popup screen
-
     var correctAnswers = 0;
     var incorrectAnswers = 0;
+    var skipped = 0; // Variable to track skipped answers
 
     for (var i = 0; i < questions.length; i++) {
-      if (questions[i].answer == selectedAnswer[i]) {
+      // Check if the answer is skipped (not selected)
+      if (selectedAnswer[i].isEmpty) {
+        skipped++;
+      } else if (questions[i].answer == selectedAnswer[i]) {
         correctAnswers++;
       } else {
         incorrectAnswers++;
       }
     }
 
-    Get.defaultDialog(
-      title: 'Quiz Result',
-      content: Column(
-        children: [
-          Text('Correct Answers: $correctAnswers'),
-          Text('Incorrect Answers: $incorrectAnswers'),
-        ],
-      ),
-      confirm: ElevatedButton(
-        onPressed: () {
-          Get.back(); // Close the dialog
-        },
-        child: const Text('OK'),
+    // Update the skippedAnswers variable
+    skippedAnswers.value = skipped;
+
+    Get.offAll(
+      () => ResultScreen(
+        correctAnswers: correctAnswers,
+        incorrectAnswers: incorrectAnswers,
+        skipedAnsewr: skipped,
       ),
     );
   }

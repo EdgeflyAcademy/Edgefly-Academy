@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../general/common widzet/loading_indicator.dart';
 import '../../../general/services/firebase_services.dart';
 import '../../profile/view/profile_screen.dart';
 import '../../settings/seetings.dart';
@@ -22,7 +21,7 @@ class CoustomAppbar extends StatelessWidget {
         builder: (BuildContext context,
             AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
           if (!snapshot.hasData) {
-            return const Center(child: LoadingIndicator());
+            return Container();
           } else {
             var data = snapshot.data!.docs[0];
 
@@ -39,21 +38,29 @@ class CoustomAppbar extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            Get.to(() => ProfileScreen());
+                            Get.to(() => const ProfileScreen());
                           },
                           child: data['imageUrl'] == ''
-                              ? Image.asset(
-                                  "assets/images/learning.png",
-                                  width: 70,
-                                  fit: BoxFit.cover,
-                                ).box.roundedFull.clip(Clip.antiAlias).make()
-                              : Image.network(
-                                  data['imageUrl'],
-                                  width: 70,
-                                  fit: BoxFit.cover,
-                                ).box.roundedFull.clip(Clip.antiAlias).make(),
+                              ? ClipOval(
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Image.asset(
+                                    "assets/images/learning.png",
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : ClipOval(
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Image.network(
+                                    data['imageUrl'],
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                         ),
-                        5.widthBox,
+                        20.widthBox,
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

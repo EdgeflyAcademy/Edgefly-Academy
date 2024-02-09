@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'dart:math';
 import 'package:edgefly_academy/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

@@ -1,7 +1,10 @@
-import 'package:edgefly_academy/app/exam/view/terms_condition.dart';
+import 'package:edgefly_academy/app/auth/view/signin_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:velocity_x/velocity_x.dart';
 
+import '../../all_subject/view/show_all_subject.dart';
 import '../../wallet/user_wallet.dart';
 import '../widget/appbar.dart';
 import '../widget/home_wiget.dart';
@@ -14,13 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List _image = [
-    'assets/images/Subjecttive.png',
-    'assets/images/Practice.png',
-    'assets/images/Lessionwise.png',
-    'assets/images/Special.png',
-    'assets/images/Free point.png',
-  ];
   final List _image2 = [
     'assets/images/Group Study.png',
     'assets/images/Syllabus.png',
@@ -31,13 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/Leaderboard.png',
     'assets/images/Reward.png',
   ];
-  final List _text = [
-    'Subjecttive',
-    'Practice',
-    'Lessionwise',
-    'Special',
-    'Free point',
-  ];
+
   final List _text2 = [
     'Group Study',
     'Syllabus',
@@ -56,6 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(70),
         child: CoustomAppbar(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await FirebaseAuth.instance.signOut();
+          Get.offAll(() => const SigninScreen());
+        },
+        child: const Icon(Icons.logout),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -76,20 +73,34 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const Divider(thickness: 0.5),
-            Expanded(
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _image.length,
-                  itemBuilder: (context, index) {
-                    return HomeWiget(
-                      ontap: () {
-                        Get.to(() => const TermCondition());
-                      },
-                      image: _image[index],
-                      text: _text[index],
-                    );
-                  }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                HomeWiget(
+                  image: "assets/images/Subjecttive.png",
+                  text: "Subjecttive",
+                  ontap: () {
+                    Get.to(() => const SubjectView());
+                  },
+                ),
+                HomeWiget(
+                  image: "assets/images/Lessionwise.png",
+                  text: "Lessionwise",
+                  ontap: () {},
+                ),
+                HomeWiget(
+                  image: "assets/images/Special.png",
+                  text: "Special",
+                  ontap: () {},
+                ),
+                HomeWiget(
+                  image: "assets/images/Free point.png",
+                  text: "Free point",
+                  ontap: () {},
+                ),
+              ],
             ),
+            20.heightBox,
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,

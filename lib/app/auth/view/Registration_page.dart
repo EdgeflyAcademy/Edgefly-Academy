@@ -98,10 +98,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       prefixIcon: const Icon(Icons.more_vert),
                       suffixIcon: DropdownButton(
                         items: const [
-                          DropdownMenuItem(value: 'ssc', child: Text('SSC')),
-                          DropdownMenuItem(value: 'hsc', child: Text('HSC')),
+                          DropdownMenuItem(value: 'SSC', child: Text('SSC')),
+                          DropdownMenuItem(value: 'HSC', child: Text('HSC')),
                           DropdownMenuItem(
-                              value: 'admition', child: Text('Admition')),
+                              value: 'Admition', child: Text('Admition')),
                         ],
                         onChanged: (value) {
                           setState(() {
