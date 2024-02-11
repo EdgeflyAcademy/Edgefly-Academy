@@ -40,6 +40,7 @@ class SignupController extends GetxController {
             'about': "Hay i am using L.earn",
             'level': "0",
             'imageUrl': "",
+            'balance': "0",
             'category': categorycontroller.text,
             'phone': phonecontroller.text,
             'institution': institutioncontroller.text,

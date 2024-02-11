@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, must_be_immutable
 
+import 'package:edgefly_academy/app/exam/controller/exam_ballance.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../wallet/view/recharge.dart';
 import 'exam_view.dart';
 
 class TermCondition extends StatelessWidget {
@@ -13,6 +15,7 @@ class TermCondition extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ExamBallanceController controller = Get.put(ExamBallanceController());
     return Scaffold(
       appBar: AppBar(
         title: "Terms & Conditions".text.make(),
@@ -54,14 +57,62 @@ class TermCondition extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff3a74c7)),
-                    onPressed: () {
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff3a74c7)),
+                  onPressed: () {
+                    if (controller.balance < 10) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Insufficient balance'),
+                            content: const Text(
+                                'Your account does not have enough money to continue the exam.Pleaace reacherge first'),
+                            actions: <Widget>[
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: const Color(0xff4bb050),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: TextButton(
+                                  onPressed: () async {
+                                    Get.back();
+                                    Get.to(WalletRechargePage());
+                                  },
+                                  child: const Text(
+                                    'recharge',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              10.widthBox,
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: const Color(0xff3a74c7),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: const Text(
+                                    'Ok',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
                       Get.offAll(() => QuizScreen(
                             subject: subject,
                           ));
-                    },
-                    child: "Agree & Continue".text.white.make()),
+                    }
+                  },
+                  child: "Agree & Continue".text.white.make(),
+                ),
               )
             ],
           ),

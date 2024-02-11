@@ -12,7 +12,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -124,7 +124,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Change Password'),
+        title: const Text('Change Password'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -139,7 +139,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(
+                  return const Center(
                       child: CircularProgressIndicator(
                     color: Colors.white,
                   ));
@@ -152,18 +152,18 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text('Old Password'),
+                    const Text('Old Password'),
                     TextField(
                       controller: _oldPasswordController,
                       obscureText: _obscureText1,
                       decoration: InputDecoration(
                         hintText: 'Enter old password',
-                        enabledBorder: UnderlineInputBorder(
+                        enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(
                               color:
                                   Colors.black), // Set underline color to black
                         ),
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors
                                   .black), // Set focused underline color to black
@@ -184,23 +184,23 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                   ],
                 );
               },
             ),
 
-            Text('New Password'),
+            const Text('New Password'),
             TextField(
               controller: _newPasswordController,
               obscureText: _obscureText2,
               decoration: InputDecoration(
                 hintText: 'Enter new password',
-                enabledBorder: UnderlineInputBorder(
+                enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(
                       color: Colors.black), // Set underline color to black
                 ),
-                focusedBorder: UnderlineInputBorder(
+                focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(
                       color:
                           Colors.black), // Set focused underline color to black
@@ -221,7 +221,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () async {
                 // Implement password change functionality here
@@ -234,21 +234,21 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('Confirm Password Change'),
-                        content: Text(
+                        title: const Text('Confirm Password Change'),
+                        content: const Text(
                             'Are you sure you want to change your password?'),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(false); // No
                             },
-                            child: Text('No'),
+                            child: const Text('No'),
                           ),
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(true); // Yes
                             },
-                            child: Text('Yes'),
+                            child: const Text('Yes'),
                           ),
                         ],
                       );
@@ -260,7 +260,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return Center(
+                        return const Center(
                           child: SpinKitFadingCircle(
                             // You can choose a different loading style
                             color: Colors
@@ -344,7 +344,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   );
                 }
               },
-              child: Text(
+              child: const Text(
                 'Change Password',
                 style: TextStyle(color: Colors.white),
               ),

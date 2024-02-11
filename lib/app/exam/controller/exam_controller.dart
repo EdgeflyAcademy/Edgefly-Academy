@@ -1,16 +1,70 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edgefly_academy/app/home_screen/home_screen/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:velocity_x/velocity_x.dart';
 import '../../result_screen/show_result.dart';
 import '../model/question_model.dart';
+import '../widgets/exam_dialog.dart';
 
 class QuizController extends GetxController {
   var questions = <Question>[].obs;
   var selectedAnswer = <String>[].obs;
-  var skippedAnswers = 0.obs; // Variable to track skipped answers
+  var skippedAnswers = 0.obs;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  var balance = 0.obs;
+
+  RxString remainingTimeString = ''.obs; // Store time as a string
+
+  Timer? _timer;
+
+  @override
+  void onInit() {
+    super.onInit();
+    startTimer();
+  }
+
+  @override
+  void onClose() {
+    _timer?.cancel();
+    super.onClose();
+  }
+
+  void startTimer() {
+    int totalSeconds = 15 * 60; // 30 minutes in seconds
+    remainingTimeString.value = formatDuration(totalSeconds);
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (totalSeconds > 0) {
+        totalSeconds--;
+        remainingTimeString.value = formatDuration(totalSeconds);
+      } else {
+        _timer?.cancel();
+        Get.snackbar(
+          'Time out',
+          'Your exam time is over',
+          snackPosition: SnackPosition.TOP,
+          shouldIconPulse: true,
+          icon: Icon(
+            Icons.check_circle_rounded,
+            color: Colors.green[900],
+          ),
+        );
+        Get.offAll(() => const HomeScreen());
+      }
+    });
+  }
+
+  String formatDuration(int totalSeconds) {
+    final Duration duration = Duration(seconds: totalSeconds);
+    final String minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
+    final String seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
 
   Future<List<Question>> getQuestions(String subject) async {
     User? user = _auth.currentUser;
@@ -21,6 +75,10 @@ class QuizController extends GetxController {
           await _firestore.collection('users').doc(userId).get();
 
       String category = userDocSnapshot['category'];
+      String balanceString = userDocSnapshot['balance'];
+      int balanceInt = int.parse(balanceString);
+      balance.value = balanceInt - 10;
+
       var querySnapshot = await _firestore
           .collection("question")
           .doc(category)
@@ -53,14 +111,23 @@ class QuizController extends GetxController {
     }
   }
 
-  Future<void> loadQuestions(String subject) async {
+  Future<void> loadQuestions(String subject, context) async {
     try {
       var questionsData = await getQuestions(subject);
-      questions.assignAll(questionsData);
-      selectedAnswer.assignAll(List.generate(questions.length, (_) => ''));
+      if (questionsData.length < 15) {
+        VxToast.show(context,
+            msg: "Not Enough Data,you will get your money back");
+        showNotEnoughQUestion(context);
+      } else {
+        questions.assignAll(questionsData);
+        selectedAnswer.assignAll(List.generate(questions.length, (_) => ''));
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update({'balance': balance.toString()});
+      }
     } catch (e) {
-      // ignore: avoid_print
-      print('Error loading questions: $e');
+      VxToast.show(context, msg: "Try after some time");
     }
   }
 
