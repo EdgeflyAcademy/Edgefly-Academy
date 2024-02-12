@@ -10,23 +10,23 @@ import '../controller/exam_controller.dart';
 import '../widgets/showdialog.dart';
 
 // ignore: must_be_immutable
-class QuizScreens extends StatefulWidget {
+class QuizScreen extends StatefulWidget {
   var subject;
   var chapter;
-  QuizScreens({super.key, this.subject, this.chapter});
+  QuizScreen({super.key, this.subject, this.chapter});
 
   @override
-  State<QuizScreens> createState() => _QuizScreenState();
+  State<QuizScreen> createState() => _QuizScreenState();
 }
 
-class _QuizScreenState extends State<QuizScreens> with WidgetsBindingObserver {
-  final QuizController quizController = Get.put(QuizController());
+class _QuizScreenState extends State<QuizScreen> with WidgetsBindingObserver {
+  final LesonQuizController quizController = Get.put(LesonQuizController());
   bool _showDialogOnResume = false;
 
   @override
   void initState() {
     super.initState();
-    quizController.loadQuestions(widget.subject, context);
+    quizController.loadQuestions(widget.subject, widget.chapter, context);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -39,10 +39,8 @@ class _QuizScreenState extends State<QuizScreens> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
-      // App is sent to the background (minimized)
       _showDialogOnResume = true;
     } else if (state == AppLifecycleState.resumed) {
-      // App is resumed (comes back to the foreground)
       if (_showDialogOnResume) {
         _showDialogOnResume = false;
         showDialogOnResume();
@@ -62,7 +60,6 @@ class _QuizScreenState extends State<QuizScreens> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final QuizController quizController = Get.put(QuizController());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -214,7 +211,7 @@ class _QuizScreenState extends State<QuizScreens> with WidgetsBindingObserver {
         width: context.screenWidth * .4,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
-          onPressed: () async {
+          onPressed: () {
             quizController.checkAnswers();
           },
           child: Row(

@@ -45,7 +45,7 @@ class SubjectView extends StatelessWidget {
                       backgroundColor: Colors.blue[200]),
                   onPressed: () {
                     Get.to(
-                      () => TermCondition(
+                      () => TermConditionss(
                         subject: "Physics",
                       ),
                     );
@@ -62,7 +62,7 @@ class SubjectView extends StatelessWidget {
                       backgroundColor: Colors.red[200]),
                   onPressed: () {
                     Get.to(
-                      () => TermCondition(
+                      () => TermConditionss(
                         subject: "Chemistry",
                       ),
                     );
@@ -79,7 +79,7 @@ class SubjectView extends StatelessWidget {
                       backgroundColor: Colors.green[200]),
                   onPressed: () {
                     Get.to(
-                      () => TermCondition(
+                      () => TermConditionss(
                         subject: "Biology",
                       ),
                     );
@@ -96,7 +96,7 @@ class SubjectView extends StatelessWidget {
                       backgroundColor: Colors.purple[200]),
                   onPressed: () {
                     Get.to(
-                      () => TermCondition(
+                      () => TermConditionss(
                         subject: "Biology",
                       ),
                     );
