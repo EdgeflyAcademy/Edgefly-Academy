@@ -8,10 +8,10 @@ import 'package:velocity_x/velocity_x.dart';
 import '../../wallet/view/recharge.dart';
 import 'exam_view.dart';
 
-class TermConditionss extends StatelessWidget {
+class TermCondition extends StatelessWidget {
   var subject;
   var chapter;
-  TermConditionss({super.key, this.subject, this.chapter});
+  TermCondition({super.key, this.subject, this.chapter});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class TermConditionss extends StatelessWidget {
                           return AlertDialog(
                             title: const Text('Insufficient balance'),
                             content: const Text(
-                                'Your account does not have enough points to continue the exam.Pleaace reacherge first'),
+                                'Your account does not have enough money to continue the exam.Pleaace reacherge first'),
                             actions: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
@@ -106,8 +106,9 @@ class TermConditionss extends StatelessWidget {
                         },
                       );
                     } else {
-                      Get.offAll(() => QuizScreens(
+                      Get.offAll(() => QuizScreen(
                             subject: subject,
+                            chapter: chapter,
                           ));
                     }
                   },

@@ -5,13 +5,12 @@ import 'package:edgefly_academy/app/home_screen/home_screen/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../../result_screen/show_result.dart';
 import '../model/question_model.dart';
 import '../widgets/exam_dialog.dart';
 
-class QuizController extends GetxController {
+class LesonQuizController extends GetxController {
   var questions = <Question>[].obs;
   var selectedAnswer = <String>[].obs;
   var skippedAnswers = 0.obs;
@@ -19,11 +18,9 @@ class QuizController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   var balance = 0.obs;
 
-  RxString remainingTimeString = ''.obs; // Store time as a string
+  RxString remainingTimeString = ''.obs;
 
   Timer? _timer;
-  late RxString categoryss = ''.obs;
-  var correctasnwerss = 0.obs;
 
   @override
   void onInit() {
@@ -37,15 +34,8 @@ class QuizController extends GetxController {
     super.onClose();
   }
 
-  String generateTimestamp() {
-    DateTime currentTime = DateTime.now();
-    return currentTime.toUtc().toIso8601String();
-  }
-
-  String formattedDate = DateFormat('MMMM d, y hh:mm a').format(DateTime.now());
-
   void startTimer() {
-    int totalSeconds = 15 * 60; // 30 minutes in seconds
+    int totalSeconds = 15 * 60;
     remainingTimeString.value = formatDuration(totalSeconds);
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -76,7 +66,7 @@ class QuizController extends GetxController {
     return '$minutes:$seconds';
   }
 
-  Future<List<Question>> getQuestions(String subject) async {
+  Future<List<Question>> getQuestions(String subject, String chapter) async {
     User? user = _auth.currentUser;
     if (user != null) {
       String userId = user.uid;
@@ -85,7 +75,6 @@ class QuizController extends GetxController {
           await _firestore.collection('users').doc(userId).get();
 
       String category = userDocSnapshot['category'];
-      categoryss.value = category;
       String balanceString = userDocSnapshot['balance'];
       int balanceInt = int.parse(balanceString);
       balance.value = balanceInt - 10;
@@ -94,6 +83,7 @@ class QuizController extends GetxController {
           .collection("question")
           .doc(category)
           .collection(subject)
+          .where('chapter', isEqualTo: chapter)
           .get();
 
       List<DocumentSnapshot> documents = querySnapshot.docs;
@@ -122,9 +112,9 @@ class QuizController extends GetxController {
     }
   }
 
-  Future<void> loadQuestions(String subject, context) async {
+  Future<void> loadQuestions(String subject, String chapter, context) async {
     try {
-      var questionsData = await getQuestions(subject);
+      var questionsData = await getQuestions(subject, chapter);
       if (questionsData.length < 15) {
         VxToast.show(context,
             msg: "Not Enough Data,you will get your money back");
@@ -147,13 +137,12 @@ class QuizController extends GetxController {
     update();
   }
 
-  void checkAnswers() async {
+  void checkAnswers() {
     var correctAnswers = 0;
     var incorrectAnswers = 0;
-    var skipped = 0; // Variable to track skipped answers
+    var skipped = 0;
 
     for (var i = 0; i < questions.length; i++) {
-      // Check if the answer is skipped (not selected)
       if (selectedAnswer[i].isEmpty) {
         skipped++;
       } else if (questions[i].answer == selectedAnswer[i]) {
@@ -163,7 +152,6 @@ class QuizController extends GetxController {
       }
     }
 
-    // Update the skippedAnswers variable
     skippedAnswers.value = skipped;
 
     Get.offAll(

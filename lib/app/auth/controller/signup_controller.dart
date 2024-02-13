@@ -41,6 +41,7 @@ class SignupController extends GetxController {
             'level': "0",
             'imageUrl': "",
             'balance': "0",
+            'points': "0",
             'category': categorycontroller.text,
             'phone': phonecontroller.text,
             'institution': institutioncontroller.text,

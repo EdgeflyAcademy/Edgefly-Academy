@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../all_subject/view/show_all_subject.dart';
+import '../../lesson_exam/view/select_subject_leson.dart';
 import '../../wallet/user_wallet.dart';
 import '../widget/appbar.dart';
 import '../widget/home_wiget.dart';
@@ -88,12 +89,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 HomeWiget(
                   image: "assets/images/Lessionwise.png",
                   text: "Lessionwise",
-                  ontap: () {},
+                  ontap: () {
+                    Get.to(() => const SelectSubjectChapter());
+                  },
                 ),
                 HomeWiget(
                   image: "assets/images/Special.png",
                   text: "Special",
-                  ontap: () {},
+                  ontap: () {
+                    Get.to(() => const SelectSubjectChapter());
+                  },
                 ),
                 HomeWiget(
                   image: "assets/images/Free point.png",
