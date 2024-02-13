@@ -5,28 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../exam/widgets/showdialog.dart';
 import '../../home_screen/home_screen/home_screen.dart';
-import '../controller/exam_controller.dart';
-import '../widgets/showdialog.dart';
+import '../controller/free_exam_controller.dart';
+
 
 // ignore: must_be_immutable
-class LesonQuizScreen extends StatefulWidget {
+class FreeQuizScreens extends StatefulWidget {
   var subject;
   var chapter;
-  LesonQuizScreen({super.key, this.subject, this.chapter});
+  FreeQuizScreens({super.key, this.subject, this.chapter});
 
   @override
-  State<LesonQuizScreen> createState() => _LesonQuizScreenState();
+  State<FreeQuizScreens> createState() => _QuizScreenState();
 }
 
-class _LesonQuizScreenState extends State<LesonQuizScreen> with WidgetsBindingObserver {
-  final LesonQuizController quizController = Get.put(LesonQuizController());
+class _QuizScreenState extends State<FreeQuizScreens> with WidgetsBindingObserver {
+  final FreeQuizController quizController = Get.put(FreeQuizController());
   bool _showDialogOnResume = false;
 
   @override
   void initState() {
     super.initState();
-    quizController.loadQuestions(widget.subject, widget.chapter, context);
+    quizController.loadQuestions(widget.subject, context);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -39,8 +40,10 @@ class _LesonQuizScreenState extends State<LesonQuizScreen> with WidgetsBindingOb
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
+      // App is sent to the background (minimized)
       _showDialogOnResume = true;
     } else if (state == AppLifecycleState.resumed) {
+      // App is resumed (comes back to the foreground)
       if (_showDialogOnResume) {
         _showDialogOnResume = false;
         showDialogOnResume();
@@ -60,6 +63,7 @@ class _LesonQuizScreenState extends State<LesonQuizScreen> with WidgetsBindingOb
 
   @override
   Widget build(BuildContext context) {
+    final FreeQuizController quizController = Get.put(FreeQuizController());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -211,7 +215,7 @@ class _LesonQuizScreenState extends State<LesonQuizScreen> with WidgetsBindingOb
         width: context.screenWidth * .4,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
-          onPressed: () {
+          onPressed: () async {
             quizController.checkAnswers();
           },
           child: Row(

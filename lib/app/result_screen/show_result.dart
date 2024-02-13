@@ -66,7 +66,21 @@ class _ResultScreenState extends State<ResultScreen> {
               .collection('users')
               .doc(FirebaseAuth.instance.currentUser!.uid)
               .update({'points': pointss.toString()});
+        }).then((value) {
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection("allexam")
+              .doc(timestamp).set({
+          'uid': FirebaseAuth.instance.currentUser!.uid,
+          'timestamp': timestamp,
+          'time': formattedDate,
+          'correctedanswer': widget.correctAnswers,
+          'incorrectanswer': widget.incorrectAnswers,
+          'skipquestion': widget.skipedAnsewr,
         });
+        });
+        
       } else {
         throw Exception('User not found');
       }

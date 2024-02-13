@@ -1,21 +1,21 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, must_be_immutable
 
-import 'package:edgefly_academy/app/exam/controller/exam_ballance.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../wallet/view/recharge.dart';
-import 'exam_view.dart';
+import '../controller/point_controller.dart';
+import 'free_exam_screen.dart';
 
-class TermCondition extends StatelessWidget {
+class TermsConditionsss extends StatelessWidget {
   var subject;
   var chapter;
-  TermCondition({super.key, this.subject, this.chapter});
+  TermsConditionsss({super.key, this.subject, this.chapter});
 
   @override
   Widget build(BuildContext context) {
-    ExamBallanceController controller = Get.put(ExamBallanceController());
+    ExamPointController controller = Get.put(ExamPointController());
     return Scaffold(
       appBar: AppBar(
         title: "Terms & Conditions".text.make(),
@@ -60,14 +60,14 @@ class TermCondition extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff3a74c7)),
                   onPressed: () {
-                    if (controller.balance < 10) {
+                    if (controller.pointss < 50) {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Insufficient balance'),
+                            title: const Text('Insufficient point'),
                             content: const Text(
-                                'Your account does not have enough money to continue the exam.Pleaace reacherge first'),
+                                'Your account does not have enough points to continue the exam.Pleaace reacherge first.'),
                             actions: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
@@ -106,10 +106,7 @@ class TermCondition extends StatelessWidget {
                         },
                       );
                     } else {
-                      Get.offAll(() => LesonQuizScreen(
-                            subject: subject,
-                            chapter: chapter,
-                          ));
+                      Get.offAll(()=>FreeQuizScreens(subject: subject,));
                     }
                   },
                   child: "Agree & Continue".text.white.make(),
