@@ -1,4 +1,6 @@
 import 'package:edgefly_academy/app/auth/view/signin_screen.dart';
+import 'package:edgefly_academy/app/suggestion/classes/classes.dart';
+import 'package:edgefly_academy/app/suggestion/syllabus/syllabus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,13 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
         preferredSize: Size.fromHeight(70),
         child: CoustomAppbar(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await FirebaseAuth.instance.signOut();
-          Get.offAll(() => const SigninScreen());
-        },
-        child: const Icon(Icons.logout),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     await FirebaseAuth.instance.signOut();
+      //     Get.offAll(() => const SigninScreen());
+      //   },
+      //   child: const Icon(Icons.logout),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -106,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  "SUGESSTION",
+                  "SUGGESTION",
                   style: TextStyle(fontSize: 20),
                 ),
                 Text(
@@ -122,7 +124,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: _image2.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        if (index == 1) {
+                          Get.to(SyllabusPage());
+                        }
+                        if (index == 2) {
+                          Get.to(ClassesPage());
+                        }
+                      },
                       child: HomeWiget(
                         image: _image2[index],
                         text: _text2[index],
