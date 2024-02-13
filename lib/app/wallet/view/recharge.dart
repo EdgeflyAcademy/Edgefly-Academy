@@ -31,7 +31,7 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wallet Recharge'),
+        title: const Text('Wallet Recharge'),
       ),
       body: Obx(() {
         if (isRechargePending.value) {
@@ -63,7 +63,7 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
             'assets/icons/expired.png',
             scale: 5,
           ), // Replace with actual image path
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           const Text(
             'Your last recharge request is pending...',
             textAlign: TextAlign.center,
@@ -94,17 +94,17 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 1st section - Instructions (static, not scrollable)
-                Text(
+                const Text(
                   'Instructions',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   // ... (Your existing instruction text)
                   "Dear user, you can now recharge your wallet. The minimum recharge amount is TK. 10 (BDT) and the maximum amount is TK. 10,000 (BDT). You have to use 'Send Money' options from any of the mentioned online payment systems (bKash, Nagad, Rocket, Upay). The only valid official phone number of Edgefly Academy is [+8801736121557]. This phone number has bKash, Nagad, Rocket, Upay accounts. After completing these processes, you have to fill up and submit the following form and wait a while for the confirmation. It will not take more than 30 minutes.",
                   textAlign: TextAlign.justify,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // 2nd section - Form (scrollable)
                 Obx(() => DropdownButtonFormField<String>(
@@ -118,15 +118,15 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
                       onChanged: (value) {
                         selectedPaymentMethod.value = value!;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Choose payment method',
                       ),
                     )),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: paymentAmountController,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Recharge Amount',
                   ),
                   validator: (value) {
@@ -142,10 +142,10 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
                   },
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: transactionNumberController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Transaction Number',
                   ),
                   validator: (value) {
@@ -157,7 +157,7 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -171,10 +171,6 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
               rechargeWallet();
             }
           },
-          child: Text(
-            'Submit Recharge Request',
-            style: TextStyle(color: Colors.white),
-          ),
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.resolveWith<Color>(
                 (Set<MaterialState> states) {
@@ -189,6 +185,10 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
               ),
             ),
           ),
+          child: const Text(
+            'Submit Recharge Request',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ),
     );
@@ -198,7 +198,7 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Center(
+        return const Center(
           child: SpinKitFadingCircle(
             color: Colors.blue,
             size: 50.0,
@@ -216,8 +216,6 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
     // Save the recharge request to Firestore
     await FirebaseFirestore.instance
         .collection('userWallet')
-        .doc(userID)
-        .collection('recharge_request')
         .doc(timestamp)
         .set({
       'status': 'pending',
@@ -229,6 +227,23 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
       'timestamp': timestamp,
       'time': formattedDate,
       'uid': userID,
+    }).then((value) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(userID)
+          .collection('transaction')
+          .doc(timestamp)
+          .set({
+        'status': 'pending',
+        'paymentMethod': selectedPaymentMethod.value,
+        'rechargeAmount': paymentAmountController.text != ""
+            ? double.parse(paymentAmountController.text)
+            : double.parse("0"),
+        'transactionNumber': transactionNumberController.text,
+        'timestamp': timestamp,
+        'time': formattedDate,
+        'uid': userID,
+      });
     });
 
     paymentAmountController.clear();

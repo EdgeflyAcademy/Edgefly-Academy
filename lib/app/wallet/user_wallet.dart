@@ -16,13 +16,13 @@ class _UserWalletState extends State<UserWallet> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("User Wallet"),
+        title: const Text("User Wallet"),
       ),
       body: Column(
         children: [
           // Upper part
           Padding(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: Container(
               height: MediaQuery.of(context).size.height * 0.25,
               decoration: BoxDecoration(
@@ -36,7 +36,7 @@ class _UserWalletState extends State<UserWallet> {
                   ],
                 ),
               ),
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -45,14 +45,14 @@ class _UserWalletState extends State<UserWallet> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Current Balance",
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "1000.00",
                         style: TextStyle(
                           fontSize: 20,
@@ -64,12 +64,6 @@ class _UserWalletState extends State<UserWallet> {
                         onPressed: () {
                           Get.to(WalletRechargePage());
                         },
-                        child: Text(
-                          "Recharge Now",
-                          style: TextStyle(
-                            color: Colors.blue,
-                          ),
-                        ),
                         style: ButtonStyle(
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -78,11 +72,17 @@ class _UserWalletState extends State<UserWallet> {
                             ),
                           ),
                         ),
+                        child: const Text(
+                          "Recharge Now",
+                          style: TextStyle(
+                            color: Colors.blue,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   // Right side row (Number of coins, withdraw amount, last recharge amount)
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -123,7 +123,7 @@ class _UserWalletState extends State<UserWallet> {
             ),
           ),
           // Lower part with scrolling list
-          SizedBox(height: 25),
+          const SizedBox(height: 25),
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -149,10 +149,10 @@ class _UserWalletState extends State<UserWallet> {
                           child:
                               Image.asset("assets/icons/wallet.png", scale: 18),
                         ),
-                        title: Text("Request Withdraw"),
+                        title: const Text("Request Withdraw"),
                         trailing: CircleAvatar(
                             backgroundColor: Colors.blue[300],
-                            child: Icon(Icons.arrow_forward_rounded)),
+                            child: const Icon(Icons.arrow_forward_rounded)),
                         // Add more properties as needed
                       ),
                     ),
@@ -171,10 +171,10 @@ class _UserWalletState extends State<UserWallet> {
                             backgroundColor: Colors.white,
                             child: Image.asset("assets/icons/transactions.png",
                                 scale: 18)),
-                        title: Text("Transactions"),
+                        title: const Text("Transactions"),
                         trailing: CircleAvatar(
                             backgroundColor: Colors.purple[300],
-                            child: Icon(Icons.arrow_forward_rounded)),
+                            child: const Icon(Icons.arrow_forward_rounded)),
                       ),
                     ),
 
@@ -189,10 +189,10 @@ class _UserWalletState extends State<UserWallet> {
                             backgroundColor: Colors.white,
                             child: Image.asset("assets/icons/stiphend.png",
                                 scale: 15)),
-                        title: Text("My Stiphend"),
+                        title: const Text("My Stiphend"),
                         trailing: CircleAvatar(
                             backgroundColor: Colors.teal[300],
-                            child: Icon(Icons.arrow_forward_rounded)),
+                            child: const Icon(Icons.arrow_forward_rounded)),
                       ),
                     ),
 
@@ -207,10 +207,10 @@ class _UserWalletState extends State<UserWallet> {
                             backgroundColor: Colors.white,
                             child: Image.asset("assets/icons/coin.png",
                                 scale: 20)),
-                        title: Text("My Coins"),
+                        title: const Text("My Coins"),
                         trailing: CircleAvatar(
                             backgroundColor: Colors.orange[300],
-                            child: Icon(Icons.arrow_forward_rounded)),
+                            child: const Icon(Icons.arrow_forward_rounded)),
                       ),
                     ),
                   ],
