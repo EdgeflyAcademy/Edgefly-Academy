@@ -5,18 +5,20 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:velocity_x/velocity_x.dart';
 
-import '../user_wallet.dart';
+class WithdrawRequest extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
+  final ballance;
+  const WithdrawRequest({super.key, required this.ballance});
 
-class WalletRechargePage extends StatefulWidget {
   @override
+  // ignore: library_private_types_in_public_api
   _WalletRechargePageState createState() => _WalletRechargePageState();
 }
 
-class _WalletRechargePageState extends State<WalletRechargePage> {
+class _WalletRechargePageState extends State<WithdrawRequest> {
   final TextEditingController paymentAmountController = TextEditingController();
-  final TextEditingController transactionNumberController =
-      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final RxString selectedPaymentMethod = "bKash".obs;
   final RxBool isRechargePending = false.obs;
@@ -46,7 +48,7 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
   void checkRechargeStatus() async {
     String userID = FirebaseAuth.instance.currentUser!.uid;
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('userWallet')
+        .collection('userwithdraw')
         .doc(userID)
         .collection('recharge_request')
         .get();
@@ -101,7 +103,7 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
                 const SizedBox(height: 10),
                 const Text(
                   // ... (Your existing instruction text)
-                  "Dear user, you can now recharge your wallet. The minimum recharge amount is TK. 10 (BDT) and the maximum amount is TK. 10,000 (BDT). You have to use 'Send Money' options from any of the mentioned online payment systems (bKash, Nagad, Rocket, Upay). The only valid official phone number of Edgefly Academy is [+8801736121557]. This phone number has bKash, Nagad, Rocket, Upay accounts. After completing these processes, you have to fill up and submit the following form and wait a while for the confirmation. It will not take more than 30 minutes.",
+                  "Dear user, you can now withdraw request . The minimum recharge amount is TK. 100 (BDT) and the maximum amount is TK. 10,000 (BDT).",
                   textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 20),
@@ -141,22 +143,6 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
                     return null;
                   },
                 ),
-
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller: transactionNumberController,
-                  decoration: const InputDecoration(
-                    labelText: 'Transaction Number',
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter transaction number';
-                    } else if (transactionNumberController.text.length <= 6) {
-                      return 'Transaction number should be at least 6 characters';
-                    }
-                    return null;
-                  },
-                ),
                 const SizedBox(height: 20),
               ],
             ),
@@ -168,7 +154,27 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
         child: ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              rechargeWallet();
+              if (double.parse(widget.ballance.toString()) >=
+                  double.parse(paymentAmountController.text)) {
+                rechargeWallet();
+                Get.back();
+              } else {
+                Get.showSnackbar(const GetSnackBar(
+                  title: "insufficient balance",
+                  message: "You don't have enough ballance",
+                  snackPosition: SnackPosition.TOP,
+                  duration: Duration(seconds: 4),
+                  borderRadius: 20,
+                  backgroundColor: Color.fromARGB(255, 129, 129, 129),
+                  margin: EdgeInsets.all(10),
+                  boxShadows: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 3,
+                    )
+                  ],
+                ));
+              }
             }
           },
           style: ButtonStyle(
@@ -215,7 +221,7 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
 
     // Save the recharge request to Firestore
     await FirebaseFirestore.instance
-        .collection('userWallet')
+        .collection('userwithdraw')
         .doc(timestamp)
         .set({
       'status': 'pending',
@@ -223,9 +229,8 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
       'rechargeAmount': paymentAmountController.text != ""
           ? double.parse(paymentAmountController.text)
           : double.parse("0"),
-      'transactionNumber': transactionNumberController.text,
       'timestamp': timestamp,
-      'type': 'recharge',
+      'type': 'withdraw',
       'time': formattedDate,
       'uid': userID,
     }).then((value) {
@@ -240,16 +245,15 @@ class _WalletRechargePageState extends State<WalletRechargePage> {
         'rechargeAmount': paymentAmountController.text != ""
             ? double.parse(paymentAmountController.text)
             : double.parse("0"),
-        'transactionNumber': transactionNumberController.text,
         'timestamp': timestamp,
-        'type': 'recharge',
         'time': formattedDate,
+        'type': 'withdraw',
         'uid': userID,
       });
     });
 
     paymentAmountController.clear();
-    transactionNumberController.clear();
+
     Get.back();
     Get.snackbar(
       'Success',
