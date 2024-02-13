@@ -22,6 +22,8 @@ class _WalletRechargePageState extends State<WithdrawRequest> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final RxString selectedPaymentMethod = "bKash".obs;
   final RxBool isRechargePending = false.obs;
+  final TextEditingController transactionNumberController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -143,6 +145,21 @@ class _WalletRechargePageState extends State<WithdrawRequest> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: transactionNumberController,
+                  decoration: const InputDecoration(
+                    labelText: 'Phone Number',
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your number';
+                    } else if (transactionNumberController.text.length <= 10) {
+                      return 'number should be at least 11 characters';
+                    }
+                    return null;
+                  },
+                ),
                 const SizedBox(height: 20),
               ],
             ),
@@ -232,6 +249,7 @@ class _WalletRechargePageState extends State<WithdrawRequest> {
       'timestamp': timestamp,
       'type': 'withdraw',
       'time': formattedDate,
+      'transactionNumber': transactionNumberController.text,
       'uid': userID,
     }).then((value) {
       FirebaseFirestore.instance
@@ -247,6 +265,7 @@ class _WalletRechargePageState extends State<WithdrawRequest> {
             : double.parse("0"),
         'timestamp': timestamp,
         'time': formattedDate,
+        'transactionNumber': transactionNumberController.text,
         'type': 'withdraw',
         'uid': userID,
       });
